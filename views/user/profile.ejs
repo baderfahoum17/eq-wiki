@@ -1,0 +1,82 @@
+<% include ../partials/header %>
+
+<div class="jumbotron jumbotron-search text-center jumbo-bg">
+	<div class="header-text">
+		<h2>Profile Page</h2>
+	</div>
+</div>
+
+<div class="container">
+	<div class="row">
+				<div class="col-lg-12 col-md-12 col-sx-12">
+					<h2><%= currentUser.firstName %> <%= currentUser.lastName %></h2>
+					<h5><%= currentUser.username %> <span class="badge"><%= currentUser.ranking %></span></h5>
+					<hr>
+					<div class="buttons-panel">
+						<a href="/profile/<%= currentUser._id %>/update" class="btn btn-default btn-def" role="button">
+					    	<i class="fa fa-pencil" aria-hidden="true"></i> Update your profile
+						</a>
+					</div>
+            	    <hr>
+					<h2>Your Posts</h2>
+					<div class="container">
+                        <div class="row">
+                                <% function dynamicSort(property) { %>
+                        		<%	    var sortOrder = 1; %>
+                        		<%	    if(property[0] === "-") { %>
+                        		<%	        sortOrder = -1; %>
+                        		<%	        property = property.substr(1); %>
+                        		<%	    } %>
+                        		<%	    return function (a,b) { %>
+                        		<%	        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0; %>
+                        		<%	        return result * sortOrder; %>
+                        		<%	    } %>
+                        		<%	} %>
+                        		<% var sortedPosts = posts.sort(dynamicSort("-created")); %>
+                        		
+                                <% sortedPosts.forEach(function(post){ %>
+                                    <div class="container panel panel-default">
+                                        <div class="row panel-body testing">
+                                    		<div class="col-lg-2 col-md-2 col-sm-12">
+                                    	        <table class="table table-borderless">
+                                    	            <tbody class="search-table text-center">
+                                                      <tr>
+                                                        <td><%= post.ranking %></td>
+                                                        <td><%= post.comments.length %></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>Votes</td>
+                                                        <td>Comments</td>
+                                                      </tr>
+                                                    </tbody>  
+                                    	        </table>   
+                                    		</div>
+                        		            <div class="col-lg-10 col-md-10 col-sm-12 little-border">
+                                				<div >
+                                					<a href="/posts/<%= post._id %>"><h2><%= post.name %></h2></a>
+                                					<h6>
+                                					    <% for(var i = 0; i < post.tags.length; i++){ %>
+                                	        				<span class="label label-default"><%= post.tags[i] %></span>
+                                            			<% } %> 
+                                            		<br><br>
+                                					    Posted <span class="comment-date"><%= post.created %></span> by <%= post.author.username %>
+                                    				</h6>
+                                				</div>
+                                			</div>
+                                		</div>	
+                                    </div>
+                                    <br>
+                                <% }); %>
+                            </div>
+                        </div>	
+				</div>
+			</div>
+		</div>
+</div>
+
+<% include ../partials/footer %>
+
+<script src="/js/DateTimeCalc.js" ></script >
+
+</body>
+</html>

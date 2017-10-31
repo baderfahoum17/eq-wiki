@@ -1,0 +1,81 @@
+<% include ../partials/header %>
+
+<div class="container-fluid">
+  <div class="message-form">
+      <h2>Add New Tags</h2>
+  </div>
+  
+  <% var newTags = []; %>
+  <% tags.forEach(function(tag){ %>
+  <% newTags.push(tag.tag); %>
+  <% }); %>
+  
+  <div class="add-post">
+    <form action="/tags/new" method="POST">
+      <div class="form-group">
+        <label for="creationTags">Add new tags (up to 1000):</label>
+        <input type="text" class="form-control" id="tokenfield-1" value="<%= newTags %>"  name="tags">
+        <input type="hidden" id="deletedTags" name="deletedTags">
+        <input type="hidden" id="updatedTags" name="updatedTags">
+      </div>
+      <button type="submit" id="submit-data" class="btn btn-delete btn-block disabled" disabled >Add Tags</button>
+      <a class="btn btn-default btn-def btn-block" href="/posts">Back</a>
+          <br><br>
+    </form>
+  </div>
+</div>
+
+<% include ../partials/footer %>
+
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+      
+    $('#tokenfield-1').tokenfield({
+      
+      showAutocompleteOnFocus: false,
+      delimiter: [',','-', '_'],
+      limit: 1000
+      
+    });
+  
+    $('#tokenfield-1').on('tokenfield:createtoken', function (event) {
+  	    var existingTokens = $(this).tokenfield('getTokens');
+  	    var tagsDB = <%- JSON.stringify(allTags); %>;
+  	    $.each(existingTokens, function(index, token) {
+  	        if (token.value === event.attrs.value || tagsDB.includes(event.attrs.value)) {
+  	            event.preventDefault();
+  	        }   
+  	    });
+  	})
+  	
+  	.on('tokenfield:removetoken', function (event) {
+      var tagsDB = <%- JSON.stringify(allTags); %>;
+      if (tagsDB.includes(event.attrs.value)) {
+        if( ($('#deletedTags').val().length > 0) ) {
+          $('#deletedTags').val($('#deletedTags').val() + ', '+ event.attrs.value);
+        } else {
+          $('#deletedTags').val(event.attrs.value);
+        }  
+      }
+  	})
+  	
+  	.on('tokenfield:edittoken', function (event) {
+        event.preventDefault();
+  	});
+  	
+    var originalForm = $('form').serialize();
+    
+    $('form').submit(function(){
+      var currentForm = $('form').serialize();
+      if (originalForm == currentForm) {
+        event.preventDefault();
+        $('#deletedTags').val(updatedTags);
+      }
+    });
+    
+    $( "#tokenfield-1" ).change(function() {
+      $('#submit-data').removeClass("disabled").removeAttr("disabled");
+    });
+  	
+  });    
+</script>

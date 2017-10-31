@@ -1,0 +1,132 @@
+<% include ../partials/header %>
+
+<link rel="stylesheet" type="text/css" href="/stylesheets/index-style.css">
+
+<header class="jumbotron jumbotron-inner jumbo-bg">
+    <h1 class="text-center">EQ - Wiki</h1>
+      <div class="col-md-6 pull-left" style="padding-right: 5%;">
+        <p>Search by tags:</p>
+        <form action="/posts/search" method="get">
+          <div class="input-group">
+            <input type="text" class="form-control" id="tokenfield-1"
+            placeholder="Type maximum 4 tags..."  name="search">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default btn-def">Submit</button>
+            </span>
+          </div>
+        </form>
+        
+        <p>Search by article text and title:</p>
+        <form action="/posts/textq" method="get">
+          <div class="input-group">
+            <input type="text" class="form-control"
+            placeholder="Type any text to search"  name="text_search">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default btn-def">Submit</button>
+            </span>
+          </div>
+        </form>
+        <br><br>
+      </div>
+      <div class="col-md-6">
+        <% function dynamicSort(property) { %>
+    		<%	    var sortOrder = 1; %>
+    		<%	    if(property[0] === "-") { %>
+    		<%	        sortOrder = -1; %>
+    		<%	        property = property.substr(1); %>
+    		<%	    } %>
+    		<%	    return function (a,b) { %>
+    		<%	        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0; %>
+    		<%	        return result * sortOrder; %>
+    		<%	    } %>
+    		<%	} %>
+    		
+        <p>Most popular searches:</p>
+        <% var sortedTags = tags_data.sort(dynamicSort("-searchNumber")); %>
+        <% sortedTags.forEach(function(tag){ %>
+            <a class="btn btn-index" href="/posts/search?search=<%= tag.tag %>"><%= tag.tag %></a>
+        <% }); %>
+      </div>  
+</header>
+
+<div class="container message-header">
+    <h1>All Posts</h1>
+</div>
+  
+<div class="container">
+    <div class="row">
+		
+		<% function dynamicSortMultiple() { %>
+    <%    var props = arguments; %>
+    <%    return function (obj1, obj2) { %>
+    <%        var i = 0, result = 0, numberOfProperties = props.length; %>
+    <%        while(result === 0 && i < numberOfProperties) { %>
+    <%            result = dynamicSort(props[i])(obj1, obj2); %>
+    <%            i++; %>
+    <%        } %>
+    <%        return result; %>
+    <%    } %>
+    <% } %>
+    
+		<% var sortedPosts = posts.sort(dynamicSortMultiple("-ranking", "-created")); %>
+        <% sortedPosts.forEach(function(post){ %>
+            <div class="container">
+                <div class="row posts-table">
+            		<div class="col-lg-2 col-md-4 visible-sm visible-md visible-lg hidden-xs">
+            	        <table class="table table-borderless">
+            	            <tbody class="search-table text-center">
+                              <tr>
+                                <td><%= post.ranking %></td>
+                                <td><%= post.comments.length %></td>
+                              </tr>
+                              <tr>
+                                <td>Votes</td>
+                                <td>Comments</td>
+                              </tr>
+                            </tbody>  
+            	        </table>   
+            		</div>
+		            <div class="col-lg-10 col-md-8 col-sm-12 col-xs-12 little-border">
+        				<div >
+        					<a href="/posts/<%= post._id %>"><h2><%= post.name %></h2></a>
+        					<h6>
+        					    <% for(var i = 0; i < post.tags.length; i++){ %>
+        	        				<span class="label label-default"><%= post.tags[i] %></span>
+                    			<% } %> 
+                    		<br><br>
+        					    Posted <span class="timeago"><%= post.created %></span> by <%= post.author.username %>
+            				</h6>
+        				</div>
+        			</div>
+        		</div>	
+            </div>
+            <br>
+        <% }); %>
+    </div>
+</div>
+
+<% include ../partials/footer %>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    
+    
+    $('#tokenfield-1').tokenfield({
+      autocomplete: {
+        source: <%- JSON.stringify(tags); %>,
+        delay: 100
+      },
+      showAutocompleteOnFocus: true,
+      delimiter: [',','-', '_'],
+      limit: 4
+    });
+  
+    $('#tokenfield-1').on('tokenfield:createtoken', function (event) {
+  	    var existingTokens = $(this).tokenfield('getTokens');
+  	    $.each(existingTokens, function(index, token) {
+  	        if (token.value === event.attrs.value)
+  	            event.preventDefault();
+  	    });
+  	});
+  
+  });
+</script>

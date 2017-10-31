@@ -1,0 +1,41 @@
+{
+  "name": "timeago-simple",
+  "version": "1.2.3",
+  "description": "Timeago is a plugin that makes it easy to support automatically updating fuzzy timestamps (e.g. \"4 minutes ago\" or \"1 day ago\")",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --reporter spec",
+    "cover": "node_modules/istanbul/lib/cli.js cover node_modules/mocha/bin/_mocha -- -R spec test/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikepenzin/timeago.git"
+  },
+  "keywords": [
+    "time",
+    "calculation",
+    "date",
+    "difference"
+  ],
+  "author": "Mike Penzin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mikepenzin/timeago/issues"
+  },
+  "homepage": "https://github.com/mikepenzin/timeago#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^2.1.2",
+    "istanbul": "^0.4.5",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "mocha": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=4.2.4"
+  }
+}

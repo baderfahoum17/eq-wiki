@@ -1,0 +1,112 @@
+<% include ../partials/header %>
+
+<script src='https://api.filepicker.io/v1/filepicker.js'></script>
+<script src='/js/tinymce/jscripts/tiny_mce/tiny_mce.js'></script>
+  
+<div class="container-fluid">
+  <div class="message-form">
+      <h2>Update Post: <%= post.name %></h2>
+  </div>
+  <div class="add-post">
+    <form action="/posts/<%= post._id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label for="postcreationTitle">Post Title:</label>
+        <input type="text" class="form-control" name="name" value="<%= post.name %>">
+      </div>
+      <div class="form-group">
+        <label for="postcreationTags">Choose tags (up to 4):</label>
+        <input type="text" class="form-control" id="tokenfield-1" value="<%= post.tags %>" name="tag">
+      </div>  
+      <div class="form-group">
+        <textarea class="form-control" rows="10" name="descr"><%- post.descr %></textarea>
+      </div>
+      <button type="submit" class="btn btn-delete btn-block">Update Post</button>
+      <a class="btn btn-default btn-def btn-block" href="/posts">Back</a>
+      <br><br>
+    </form>
+  </div>
+</div>
+
+<script type='text/javascript'>
+	// Set the filepicker API key here.
+    filepicker.setKey('AplOSzF0fTtmzg0bfVQOiz');
+
+    // Load the filepicker plugin from an external URL
+    // NOTE: You should specify the full URL.
+    tinyMCE.PluginManager.load('filepicker', '/js/tinymce/jscripts/tiny_mce/fp-plugin/editor_plugin.js');
+    tinyMCE.init({
+      schema : 'html5',
+      mode   : 'textareas',
+
+      // Add filepicker plugin here. '-' sign means don't try to load it again since we loaded it above.
+      plugins : '-filepicker',
+
+      theme : 'advanced',
+      theme_advanced_toolbar_location : 'top',
+      theme_advanced_toolbar_align : 'left',
+      theme_advanced_statusbar_location : 'bottom',
+      theme_advanced_resizing : true,
+	    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,formatselect,fontselect,fontsizeselect,  |, filepicker",
+      theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,cleanup,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+
+      setup : function(ed) {
+      }
+    });
+</script>
+<% include ../partials/footer %>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+    
+    
+    $('#tokenfield-1').tokenfield({
+      autocomplete: {
+        source: <%- JSON.stringify(tags); %>,
+        delay: 100
+      },
+      showAutocompleteOnFocus: true,
+      delimiter: [',','-', '_']
+    });
+    
+    $('#tokenfield-1').on('tokenfield:createtoken', function (event) {
+  	    var existingTokens = $(this).tokenfield('getTokens');
+  	    $.each(existingTokens, function(index, token) {
+  	        if (token.value === event.attrs.value)
+  	            event.preventDefault();
+  	    });
+  	});
+
+  	$('form').submit(function( event ) {
+  	    var existingTokens = $('#tokenfield-1').tokenfield('getTokens');
+  	    var tagsDB = <%- JSON.stringify(tags); %>;
+  	    $.each(existingTokens, function(index, token) {
+  	        if (!tagsDB.includes(token.value)) {
+  	            event.preventDefault();
+  	            console.log(token.value);
+  	            $.notify({
+                	// options
+                	icon: 'glyphicon glyphicon-warning-sign',
+                	allow_dismiss: true,
+                	message: 'You cannot submit article with unrecognized tag: ' + token.value
+                },{
+                	// settings
+                	type: 'danger',
+                	placement: {
+                		from: "top",
+                		align: "right"
+                	},
+                	offset: 20,
+                	spacing: 10,
+                	z_index: 1031,
+                	delay: 5000,
+                	timer: 1000,
+                	animate: {
+                		enter: 'animated fadeInDown',
+                		exit: 'animated fadeOutUp'
+                	}
+                });
+  	        }  
+  	    });
+  	});
+  
+  });
+</script>

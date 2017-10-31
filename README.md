@@ -1,1 +1,1 @@
-# eq-wiki
+## First init

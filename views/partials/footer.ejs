@@ -1,0 +1,72 @@
+<footer class="footer">
+  <div class="container">
+      <p>Made with <i class="fa fa-heart-o love" aria-hidden="true"></i> by Liana & Bader</p>
+  </div>
+</footer>
+
+    <script type="text/javascript" src="/components/timeago-simple/dist/timeago.min.js"></script>
+    <script type="text/javascript" src="/components//jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="/components/jquery-ui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/components//bootstrap/dist/js/bootstrap.min.js"></script>
+  <!-- smooth scroll -->
+    <script type="text/javascript" src="/js/smoothscroll.js"></script>
+    <!-- tokienfield js stuff -->
+    <script type="text/javascript" src="/components/bootstrap-tokenfield/docs-assets/js/bootstrap-tokenfield.min.js"></script>
+    <script type="text/javascript" src="/components/bootstrap-tokenfield/docs-assets/js/typeahead.bundle.min.js"></script>
+    <script type="text/javascript" src="/components/remarkable-bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <!-- autocomplete data -->
+  
+  <% if(error && error.length > 0) { %>
+    <script>
+      $.notify({
+      	// options
+      	icon: 'glyphicon glyphicon-warning-sign',
+      	allow_dismiss: true,
+      	message: '<%= error %>'
+      },{
+      	// settings
+      	type: 'danger',
+      	placement: {
+      		from: "top",
+      		align: "right"
+      	},
+      	offset: 20,
+      	spacing: 10,
+      	z_index: 1031,
+      	delay: 5000,
+      	timer: 1000,
+      	animate: {
+      		enter: 'animated fadeInDown',
+      		exit: 'animated fadeOutUp'
+      	}
+      });
+    </script>
+  <% } else if(success && success.length > 0) { %>
+    <script>
+      $.notify({
+      	// options
+      	icon: 'glyphicon glyphicon-ok',
+      	allow_dismiss:true,
+      	message: '<%= success %>' 
+      },{
+      	// settings
+      	type: 'success',
+      	placement: {
+      		from: "top",
+      		align: "right"
+      	},
+      	offset: 20,
+      	spacing: 10,
+      	z_index: 1031,
+      	delay: 5000,
+      	timer: 1000,
+      	animate: {
+      		enter: 'animated fadeInDown',
+      		exit: 'animated fadeOutUp'
+      	}
+      });
+    </script>
+  <% } %>  
+
+</body>
+</html>

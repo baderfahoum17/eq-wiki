@@ -1,0 +1,28 @@
+<% include partials/header %>
+
+
+<div class="container">
+  <div class="text-center">
+    
+  </div>
+  <div class="message-form">
+      <h1>Log in</h1>
+  </div>
+  <div class="add-form">
+    <form action="/login" method="POST">
+      <div class="form-group">
+        <label for="userSSO">SSO:</label>
+        <input type="text" class="form-control" name="username" placeholder="Your SSO">
+      </div>
+      <div class="form-group">
+        <label for="userPASS">Password:</label>
+        <input type="password" class="form-control" name="password" placeholder="Password">
+      </div>
+      <button type="submit" class="btn btn-delete btn-block">Log in</button>
+      <a class="btn btn-default btn-def btn-block" href="/posts">Back</a>
+          <br><br>
+    </form>
+  </div>
+</div>
+
+<% include partials/footer %>

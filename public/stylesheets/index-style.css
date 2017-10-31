@@ -1,0 +1,28 @@
+body {
+    padding-top: 50px;
+}
+
+.jumbotron-inner h1 {
+	color: #f6f7eb;
+	margin-top: 4vh;
+	padding: 0px;
+}
+
+.btn-index {
+	display: inline-block;
+	background: rgba(98,98,98, 0.5);
+	border: 1px solid #DEDEDE;
+	border-radius: 20px;
+	font-size: 1.3rem;
+	color: #f6f7eb;
+	transition: background 0.5s;
+	-webkit-transition: background 0.5s;
+	-moz-transition: background 0.5s;
+	margin-right: 4px;
+	margin-bottom: 8px;
+}
+
+.btn-index:hover {
+	background: rgba(234,234,234, 0.2);
+	color: #f6f7eb;
+}
