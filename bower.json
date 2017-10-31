@@ -3,10 +3,11 @@
   "description": "EQ team Wiki",
   "main": "app.js",
   "authors": [
-    "mikepenzin <mike.penzin@gmail.com>"
+    "BaderFahoum <fahoumbader@gmail.com>"
+    "Liana Wochal <lvotchal@gmail.com>"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/mikepenzin/eq-wiki",
+  "homepage": "https://github.com/baderfahoum17/eq-wiki",
   "private": false,
   "ignore": [
     "**/.*",
