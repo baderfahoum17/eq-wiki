@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mikepenzin/eq-wiki.git"
+    "url": "git+https://github.com/baderfahoum17/eq-wiki.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mikepenzin/eq-wiki/issues"
+    "url": "https://github.com/baderfahoum17/eq-wiki/issues"
   },
-  "homepage": "https://github.com/mikepenzin/eq-wiki#readme",
+  "homepage": "https://github.com/baderfahoum17/eq-wiki#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
